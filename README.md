@@ -269,9 +269,28 @@ A：`%ProgramData%\FuckEAAC\fuckeaac.log`（界面点「打开日志」直达）
 │  └─ tauri.conf.json
 ├─ package.json             前端侧依赖（只有一个 @tauri-apps/cli）
 ├─ pnpm-lock.yaml           锁定 CLI 版本
+├─ LICENSE                  GNU General Public License v3.0
 └─ .gitignore               排除 target/、node_modules/、运行配置与日志
 ```
 
 ## 许可证
 
-暂未添加 `LICENSE` 文件（默认保留所有权利）。如需以特定许可分发，请先补充说明。
+本项目以 **GNU General Public License v3.0** 发布，完整条款见仓库根目录的 [`LICENSE`](LICENSE)。
+
+```
+FuckEAAC — 进游戏前停用代理/网络类工具，退出后自动恢复
+Copyright (C) 2026  nfysx
+
+This program is free software: you can redistribute it and/or modify it under the terms of
+the GNU General Public License as published by the Free Software Foundation, either version 3
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.
+If not, see <https://www.gnu.org/licenses/>.
+```
+
+> 使用/分发请注意 GPL-3.0 的要求：修改后再分发需同样以 GPL-3.0 开放源码，并保留版权与许可声明。
