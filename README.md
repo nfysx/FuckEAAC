@@ -31,7 +31,7 @@ EA 系游戏（战地，Apex，FC 系列……）由 **EAAC** 保护，它检测
 
 ## 下载与运行
 
-1. 下载 `FuckEAAC.exe`（。
+1. 下载 `FuckEAAC.exe`
 2. 双击运行即可。**建议以管理员身份运行**。
 3. 首次运行会扫描本机并生成 `FuckEAAC.config.json`（与 exe 同目录）。
 
