@@ -12,7 +12,7 @@ EA 系游戏（战地 6、FC 系列……）由 **EAAC（EA AntiCheat）** 保�
 | 形态 | 单文件绿色程序：`dist/FuckEAAC.exe`，约 3.5 MB，免安装、无控制台窗口 |
 | 技术栈 | Tauri 2 + Rust 后端／纯 HTML + CSS + JS 前端（无打包器、无第三方 JS 库、无 CDN） |
 | 依赖 | 只有 4 个直接 crate：`tauri`、`tauri-plugin-dialog`、`serde`、`serde_json` |
-| 网络 | **不联网**：无 HTTP 客户端、无遥测、无自动更新（可自行核对，见 `docs/代码审查指南.md`） |
+| 网络 | **不联网**：无 HTTP 客户端、无遥测、无自动更新（可自行核对，见下文"它会动什么、不会动什么"） |
 
 ---
 
@@ -97,9 +97,11 @@ pnpm tauri build             # 打 NSIS 安装包（首次需联网下载 NSIS �
 cargo clean                  # 清缓存（可腾出几个 GB）
 ```
 
-**Visual Studio / VS Code 的使用方式、"想改 X 该动哪个文件"、如何发布**：见
-[docs/编译与改代码.md](docs/编译与改代码.md)。
-**不懂 Rust 也能上手**：见 [docs/Rust-入门与代码导读.md](docs/Rust-入门与代码导读.md)（用本项目源码当教材）。
+**用 IDE 开发**：Visual Studio / VS Code 都没有 Rust 项目系统 —— 用「打开文件夹」打开项目根目录，
+编译调试都在集成终端里跑上面的命令（VS Code 装 `rust-analyzer` 扩展会有补全和实时报错）。
+**想改 X 该动哪个文件**：界面文字 `src/index.html` + `src/styles.css` + `src/main.js`；
+停用/恢复逻辑 `src-tauri/src/actions.rs`（**全项目只有它会改系统**）；检测 `src-tauri/src/detect.rs`；
+等待游戏 `src-tauri/src/play.rs`；目标清单 `src-tauri/src/config.rs` 的 `default_config()`。
 
 ---
 
@@ -153,7 +155,15 @@ cargo clean                  # 清缓存（可腾出几个 GB）
 **不做**：注册表其它任何位置、IFEO 映像劫持、进程注入、驱动安装/加载、优先级调整、文件替换、
 访问游戏或反作弊目录、任何网络请求。
 
-完整的可复现核对命令与结论见 **[docs/代码审查指南.md](docs/代码审查指南.md)**。
+**自己核对的办法**（源码里直接搜，应该全部搜不到）：
+
+```powershell
+cd src-tauri
+Select-String -Path src\*.rs -Pattern 'OpenProcess|WriteProcessMemory|CreateRemoteThread|SetWindowsHookEx|reg add|Image File Execution|SetPriorityClass|NtLoadDriver'
+Select-String -Path src\*.rs,..\src\*.js,..\src\*.html -Pattern 'fetch\(|XMLHttpRequest|WebSocket|http://|https://'
+cargo tree -i reqwest          # 输出 "nothing to print" = 没有 HTTP 客户端库被链进来
+Select-String -Path src\*.rs -Pattern 'util::run\("([^"]+)"' -AllMatches | % { $_.Matches | % { $_.Groups[1].Value } } | Group-Object
+#   最后一条会列出它执行的全部外部程序：sc.exe / taskkill.exe / tasklist.exe / netsh.exe / explorer.exe / powershell.exe
 
 ---
 
@@ -245,13 +255,21 @@ A：`%ProgramData%\FuckEAAC\fuckeaac.log`（界面点「打开日志」直达）
 
 ---
 
-## 文档
+## 仓库结构
 
-| 文档 | 内容 |
-|---|---|
-| [docs/代码审查指南.md](docs/代码审查指南.md) | 文件地图、执行的全部命令、怎么自己核对"不联网 / 不碰反作弊"、数据落在哪 |
-| [docs/编译与改代码.md](docs/编译与改代码.md) | VS / VS Code 里的编译调试方式、"想改 X 该动哪个文件"、发布到 GitHub |
-| [docs/Rust-入门与代码导读.md](docs/Rust-入门与代码导读.md) | 用本项目源码当教材的 Rust 速成 + 6 个改代码练习 |
+```
+├─ dist/FuckEAAC.exe        现成可运行的构建产物（约 3.5 MB）
+├─ src/                     前端：index.html / styles.css / main.js / icons
+├─ src-tauri/
+│  ├─ src/                  Rust 后端：main / commands / config / detect / actions / play / state / util / diag
+│  ├─ capabilities/         权限声明
+│  ├─ icons/                打包用图标
+│  ├─ Cargo.toml            4 个直接依赖：tauri / tauri-plugin-dialog / serde / serde_json
+│  └─ tauri.conf.json
+├─ package.json             前端侧依赖（只有一个 @tauri-apps/cli）
+├─ pnpm-lock.yaml           锁定 CLI 版本
+└─ .gitignore               排除 target/、node_modules/、运行配置与日志
+```
 
 ## 许可证
 
