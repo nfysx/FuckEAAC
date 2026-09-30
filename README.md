@@ -11,7 +11,7 @@ EA 系游戏（战地 6、FC 系列……）由 **EAAC（EA AntiCheat）** 保�
 | 平台 | Windows 10 / 11（x64） |
 | 形态 | 单文件绿色程序：`dist/FuckEAAC.exe`，约 3.5 MB，免安装、无控制台窗口 |
 | 技术栈 | Tauri 2 + Rust 后端／纯 HTML + CSS + JS 前端（无打包器、无第三方 JS 库、无 CDN） |
-| 依赖 | 只有 4 个直接 crate：`tauri`、`tauri-plugin-dialog`、`serde`、`serde_json` |
+| 依赖 | 运行时依赖只有 4 个：`tauri`、`tauri-plugin-dialog`、`serde`、`serde_json`（另加 1 个构建依赖 `tauri-build`） |
 | 网络 | **不联网**：无 HTTP 客户端、无遥测、无自动更新（可自行核对，见下文"它会动什么、不会动什么"） |
 
 ---
@@ -89,9 +89,10 @@ pnpm tauri dev               # 开发模式（改 Rust 自动重编；改 HTML/C
 
 cd src-tauri
 cargo build --release        # 发布版 → src-tauri\target\release\fuckeaac.exe（约 3.5 MB）
-cargo test                   # 18 个单元测试
+cargo test                   # 18 个单元测试（另有 1 个端到端测试要手动跑，见下）
 cargo clippy --all-targets   # 静态检查（当前 0 warning）
 cargo fmt                    # 格式化
+cargo test -- --ignored --nocapture   # 端到端：造一个假"游戏"进程，跑完 出现→等待→退出→自动恢复 整条链（约 12 秒）
 
 pnpm tauri build             # 打 NSIS 安装包（首次需联网下载 NSIS 工具链）
 cargo clean                  # 清缓存（可腾出几个 GB）
