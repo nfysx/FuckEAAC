@@ -1,0 +1,203 @@
+/* =============================================================================
+   FuckEAAC 样式（想改外观，只改这个文件就够了）
+   - 深浅色由 <body class="dark"> 切换，颜色全部走 CSS 变量
+   - 卡片：白/深底 + 圆角 + 阴影（浅色下页面底色是灰色 #E8EAED，卡片才显出来）
+   - 胶囊按钮：谷歌蓝描边 + 蓝字 + 全圆角
+   ============================================================================= */
+
+:root {
+  /* ---- 深色主题（默认）---- */
+  --surface: #1b1e22;        /* 卡片底 */
+  --bg: #101214;             /* 窗体底 */
+  --border: #2d333b;
+  --text: #e8eaed;
+  --muted: #9aa0a6;
+  --hover: #24292f;
+  --blue: #4c9aff;           /* 主色 */
+  --accent: #8ab4f8;         /* 谷歌蓝（胶囊/标题） */
+  --green: #3dcf64;
+  --red: #ff5c52;
+  --amber: #ffba46;
+  --shadow: 0 6px 18px rgba(0, 0, 0, .45);
+}
+
+body.light {
+  /* ---- 浅色主题 ---- */
+  --surface: #ffffff;
+  --bg: #e8eaed;             /* ★ 灰色页面底，白卡片才有层次 */
+  --border: #dadce0;
+  --text: #202124;
+  --muted: #5f6368;
+  --hover: #f1f3f4;
+  --blue: #1a73e8;
+  --accent: #1a73e8;         /* Google Blue 600 */
+  --green: #188038;
+  --red: #d93025;
+  --amber: #b07800;
+  --shadow: 0 4px 14px rgba(60, 64, 67, .18);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; height: 100%;
+  background: var(--bg); color: var(--text);
+  font-family: "Segoe UI", "Microsoft YaHei UI", "Noto Sans SC", system-ui, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+/* ============================ 顶栏 ============================ */
+.appbar {
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; }
+.brand-text { min-width: 0; }
+.title { font-size: 19px; font-weight: 600; color: var(--accent); line-height: 1.2; }
+.subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; }
+.bar-actions { display: flex; align-items: center; gap: 10px; }
+
+/* 胶囊按钮：蓝描边 + 蓝字 + 全圆角 */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 14px;
+  border: 1px solid var(--accent); border-radius: 999px;
+  background: transparent; color: var(--accent);
+  font-size: 13px; cursor: pointer;
+}
+.pill:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.pill .ico { width: 16px; height: 16px; fill: var(--accent); stroke: var(--accent); stroke-width: 1.6; }
+.pill .ico .rays { stroke-linecap: round; }
+.admin { color: var(--green); font-size: 13px; margin-left: 6px; }
+.admin.not-admin { color: var(--amber); }
+/* 未提权时徽标可点击（点一下切换管理员模式） */
+.admin.clickable { cursor: pointer; border: 1px solid currentColor; border-radius: 999px; padding: 4px 10px; }
+.admin.clickable:hover { background: color-mix(in srgb, var(--amber) 16%, transparent); }
+
+/* ============================ 布局 ============================ */
+.layout { display: flex; height: calc(100% - 64px); }
+.nav {
+  width: 184px; flex: 0 0 184px;
+  padding: 14px 12px;
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--surface); border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+.nav-item {
+  text-align: left; padding: 10px 12px;
+  border: 0; border-radius: 8px; cursor: pointer;
+  background: transparent; color: var(--muted); font-size: 14px;
+}
+.nav-item:hover { background: var(--hover); }
+.nav-item.primary { background: var(--blue); color: #fff; font-weight: 600; }
+.nav-item.primary:hover { filter: brightness(.94); }
+.nav-sep { height: 1px; background: var(--border); margin: 8px 4px; }
+
+.content { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+
+/* ============================ 卡片 ============================ */
+.card {
+  background: var(--surface); border-radius: 12px;
+  box-shadow: var(--shadow); padding: 14px 16px;
+}
+.card-title { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.info-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size: 13px; }
+.info-row .k { color: var(--muted); white-space: nowrap; }
+.info-row .v { text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.info-row.wide { display: block; }
+.info-row.wide .v { text-align: left; margin-top: 2px; }
+.v.ok { color: var(--green); } .v.bad { color: var(--red); } .v.warn { color: var(--amber); }
+
+/* ============================ 表格 ============================ */
+.table-wrap { overflow: hidden; }
+table.grid { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.grid th {
+  text-align: left; font-weight: 500; color: var(--muted);
+  padding: 6px 8px; border-bottom: 1px solid var(--border);
+}
+table.grid td { padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+table.grid tr:last-child td { border-bottom: 0; }
+td.empty { color: var(--muted); text-align: center; padding: 18px; }
+.badge {
+  display: inline-block; padding: 2px 9px; border-radius: 999px;
+  font-size: 12px; border: 1px solid currentColor;
+}
+.badge.stop { color: var(--amber); }
+.badge.warn { color: var(--muted); }
+.badge.run { color: var(--amber); }
+.mono { font-family: Consolas, "Cascadia Mono", monospace; color: var(--amber); }
+
+/* ============================ 表单 ============================ */
+.chk { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 13px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 6px 0 6px 24px; }
+.row .lbl { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.row input[type=text] {
+  flex: 1; height: 34px; padding: 0 10px;
+  background: var(--hover); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
+}
+.btn {
+  height: 34px; padding: 0 14px; cursor: pointer;
+  background: transparent; color: var(--blue);
+  border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
+}
+.btn:hover { background: var(--hover); }
+.row input[type=number] {
+  width: 84px; height: 34px; padding: 0 10px;
+  background: var(--hover); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
+}
+.row .hint { color: var(--muted); font-size: 12px; }
+
+/* ==================== 等待游戏的横幅 ==================== */
+.play-banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 10px; font-size: 13px;
+  border: 1px solid color-mix(in srgb, var(--green) 45%, var(--border));
+  background: color-mix(in srgb, var(--green) 12%, transparent);
+  color: var(--text);
+}
+.play-banner.hidden { display: none; }
+/* 没等到游戏 / 需要你手动恢复时改成琥珀色警示 */
+.play-banner.warn {
+  border-color: color-mix(in srgb, var(--amber) 55%, var(--border));
+  background: color-mix(in srgb, var(--amber) 14%, transparent);
+}
+.play-banner .pb-dot {
+  width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: var(--green);
+}
+.play-banner.warn .pb-dot { background: var(--amber); }
+.play-banner:not(.hidden):not(.warn) .pb-dot { animation: pb-pulse 1.4s ease-in-out infinite; }
+@keyframes pb-pulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+.play-banner .pb-text { flex: 1; }
+.play-banner .pb-btn {
+  flex: none; height: 30px; padding: 0 12px; cursor: pointer;
+  background: transparent; color: var(--blue);
+  border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px;
+}
+.play-banner .pb-btn:hover { background: var(--hover); }
+
+/* ============================ 日志 ============================ */
+.log {
+  margin: 0; max-height: 190px; overflow-y: auto;
+  font-family: Consolas, "Cascadia Mono", monospace; font-size: 12.5px;
+  line-height: 1.7; white-space: pre-wrap; word-break: break-all;
+}
+.log .l-OK { color: var(--green); }
+.log .l-WARN { color: var(--amber); }
+.log .l-ERROR { color: var(--red); }
+.log .l-STEP { color: var(--blue); }
+.log .l-INFO { color: var(--muted); }
+
+/* 细小滚动条（深色下别太亮） */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+::-webkit-scrollbar-track { background: transparent; }

@@ -1,0 +1,33 @@
+# ============================================================
+#  FuckEAAC · 不要提交的东西
+# ============================================================
+
+# ---- 编译产物（这个目录能涨到 5 GB，绝对不要进 git）----
+# 清它用：cd src-tauri && cargo clean
+src-tauri/target/
+
+# ---- 现成可运行的 exe 副本（dist/）----
+# dist/ 是**故意提交**的：让从 GitHub 下载的人不装 Rust 也能直接双击跑。
+# 想改成"只发 Release 附件、仓库不存二进制"，把下面两行取消注释即可：
+# dist/*.exe
+# dist/*.json
+
+# ---- 前端依赖（重装需要联网，删之前想清楚）----
+node_modules/
+
+# ---- Visual Studio「打开文件夹」时自动生成的缓存 ----
+# （工程里原来手写的 launch.vs.json / tasks.vs.json 已删除；
+#   想恢复的话照着 docs/编译与改代码.md 里的 JSON 片段自己建即可）
+.vs/
+
+# ---- 运行时生成的东西（每台机器都不一样）----
+# 首次运行会扫描本机生成这份配置；状态文件和日志在 %ProgramData%\FuckEAAC\
+FuckEAAC.config.json
+*.log
+
+# ---- 编辑器/系统杂物 ----
+Thumbs.db
+desktop.ini
+*~
+*.bak
+*.orig

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>FuckEAAC</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- 顶栏 -->
+<header class="appbar">
+  <div class="brand">
+    <img class="logo" src="icons/icon.png" alt="FuckEAAC" />
+    <div class="brand-text">
+      <div class="title">FuckEAAC</div>
+      <div class="subtitle">正在严肃FuckEAAC</div>
+    </div>
+  </div>
+  <div class="bar-actions">
+    <!-- 胶囊按钮 -->
+     
+    <button class="pill" id="btn-theme">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" />
+        <g class="rays">
+          <line x1="12" y1="2" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="22" />
+          <line x1="2" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="22" y2="12" />
+          <line x1="4.9" y1="4.9" x2="7" y2="7" /><line x1="17" y1="17" x2="19.1" y2="19.1" />
+          <line x1="4.9" y1="19.1" x2="7" y2="17" /><line x1="17" y1="7" x2="19.1" y2="4.9" />
+        </g>
+      </svg>
+      <span id="theme-label">浅色</span>
+    </button>
+    <button class="pill" id="btn-diag">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="6" fill="none" stroke-width="2" />
+        <line x1="15" y1="15" x2="20" y2="20" stroke-width="2.4" />
+      </svg>
+      <span>环境诊断</span>
+    </button>
+    <button class="pill" id="btn-github">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="10.5" cy="10.5" r="6" fill="none" stroke-width="2" />
+        <line x1="15" y1="15" x2="20" y2="20" stroke-width="2.4" />
+      </svg>
+      <span><a href="https://github.com/nfysx/FuckEAAC" style="text-decoration: none; color: inherit;">Github</a></span>
+    </button>
+    <span class="admin" id="admin-badge">检测中…</span>
+  </div>
+</header>
+
+<div class="layout">
+  <!--左侧导航栏-->
+  <aside class="nav">
+    <button class="nav-item primary" id="btn-play">游戏模式</button>
+    <button class="nav-item" id="btn-stop">停用代理</button>
+    <button class="nav-item" id="btn-restore">恢复代理</button>
+    <button class="nav-item" id="btn-drill">测试模式</button>
+    <div class="nav-sep"></div>
+    <button class="nav-item" id="btn-refresh">刷新界面状态</button>
+    <button class="nav-item" id="btn-rescan">重新扫描生成配置</button>
+    <button class="nav-item" id="btn-config">打开配置文件</button>
+    <button class="nav-item" id="btn-log">日志</button>
+    <div class="nav-sep"></div>
+    <button class="nav-item" id="btn-quit">退出</button>
+  </aside>
+
+  <!--右侧内容-->
+  <main class="content">
+    <!-- 等待游戏时的横幅，由 JS 控制显示/隐藏-->
+    <div class="play-banner hidden" id="play-banner">
+      <span class="pb-dot"></span>
+      <span class="pb-text" id="play-text">等待中…</span>
+      <button class="pb-btn" id="btn-play-cancel">停止等待并立即恢复</button>
+    </div>
+
+    <!-- 三张信息卡：由 JS 填充 -->
+    <section class="cards" id="cards"></section>
+
+    <!-- 检测结果 -->
+    <section class="card">
+      <div class="card-title">检测结果</div>
+      <div class="table-wrap">
+        <table class="grid">
+          <thead>
+            <tr><th style="width:13%">处理方式</th><th style="width:22%">目标软件</th>
+                <th style="width:33%">命中的进程 / 服务</th><th style="width:12%">状态</th><th>说明</th></tr>
+          </thead>
+          <tbody id="result-body">
+            <tr><td colspan="5" class="empty">检测中…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 游戏启动 -->
+    <section class="card">
+      <div class="card-title">游戏启动</div>
+      <label class="chk">
+        <input type="checkbox" id="chk-wait" checked />
+        进入游戏模式后自动等待，游戏退出时自动恢复代理
+      </label>
+      <div class="row">
+        <span class="lbl">游戏主程序：</span>
+        <input type="text" id="txt-game" placeholder="可留空" />
+        <button class="btn" id="btn-browse">浏览…</button>
+      </div>
+      <div class="row">
+        <span class="lbl">最长等待：</span>
+        <input type="number" id="num-timeout" value="720" min="1" max="1440" />
+        <span class="hint">分钟</span>
+      </div>
+      <label class="chk">
+        <input type="checkbox" id="chk-demand" />
+        命中的内核驱动改成按需加载（不再随开机加载进内核）
+      </label>
+    </section>
+
+    <!-- 运行日志 -->
+    <section class="card">
+      <div class="card-title">运行日志</div>
+      <pre class="log" id="log"></pre>
+    </section>
+  </main>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

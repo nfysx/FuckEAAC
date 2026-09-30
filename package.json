@@ -1,0 +1,14 @@
+{
+  "name": "fuckeaac",
+  "version": "2.0.0",
+  "description": "进游戏前停用代理/网络类软件，玩完自动恢复（Tauri + Rust 重写版）",
+  "private": true,
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

@@ -1,0 +1,37 @@
+[package]
+name = "fuckeaac"
+version = "2.0.0"
+description = "进游戏前停用代理/网络类软件，退出游戏自动恢复"
+authors = ["you"]
+edition = "2021"
+# 说明：这是 Tauri v2 应用（Rust 宿主 + 系统 WebView2 渲染前端）
+# 目标平台：Windows 10/11 x64，工具链 stable-x86_64-pc-windows-msvc
+# 仅做 Windows 桌面单一二进制，所以不需要 Tauri 模板里那套 src/lib.rs 拆分（代码更好审查）
+
+[[bin]]
+name = "fuckeaac"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# ---- Tauri 本体 ----
+# tray-icon : 托盘图标（后台保活用）
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-dialog = "2"          # 选游戏 exe 的「浏览…」文件对话框
+# ---- 序列化：前后端传 JSON、读写配置和状态文件 ----
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# 说明：系统检测（服务/进程/驱动/虚拟网卡）**刻意不引入额外 crate**，
+# 而是调用系统自带的 sc.exe / tasklist.exe / powershell.exe —— 
+# 这样依赖树极小、你审查代码时一眼能看全（见 README-代码审查.md）。
+
+[profile.release]
+# 体积优化：Tauri 应用发布建议
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
