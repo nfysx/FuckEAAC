@@ -2,7 +2,7 @@
 
 进游戏前**自动停掉本机的代理 / 网络类工具**，退出游戏后**自动恢复**。
 
-EA 系游戏（战地 6、FC 系列……）由 **EAAC（EA AntiCheat）** 保护，它检测到 Proxifier、Clash 这类
+EA 系游戏（战地，Apex，FC 系列……）由 **EAAC（EA AntiCheat）** 保护，它检测到 Proxifier、Clash 这类
 会改写网络流量的工具时，可能直接拒绝启动游戏。FuckEAAC 做的事很直接：**启动游戏之前把这些工具停干净
 （客户端进程、Windows 服务、内核驱动、系统代理开关），玩完再原样恢复**。
 
