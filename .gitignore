@@ -16,8 +16,6 @@ src-tauri/target/
 node_modules/
 
 # ---- Visual Studio「打开文件夹」时自动生成的缓存 ----
-# （工程里原来手写的 launch.vs.json / tasks.vs.json 已删除；
-#   想恢复的话照着 docs/编译与改代码.md 里的 JSON 片段自己建即可）
 .vs/
 
 # ---- 运行时生成的东西（每台机器都不一样）----
